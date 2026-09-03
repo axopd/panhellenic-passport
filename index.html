@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panhellenic Passport</title>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --navy: #1f3554;
@@ -409,7 +409,7 @@
       <span>Panhellenic Passport</span>
     </div>
 
-    <button class="signin">Sign in</button>
+    <button class="signin" id="signInButton">Sign in</button>
   </header>
 
   <main>
@@ -587,6 +587,16 @@
   <footer>
     Panhellenic Passport · 2026
   </footer>
+<script>
+  const SUPABASE_URL = "https://ufepbdfoivjcyiqmeocr.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Daqjgu38ykobLqS-bbIIsw_gt-Ornub";
 
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const signInButton = document.getElementById("signInButton");
+  
+signInButton.addEventListener("click", () => {
+  alert("Sign in is connected!");
+});
+</script>
 </body>
 </html>
