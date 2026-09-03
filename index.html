@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panhellenic Passport</title>
+
+  <style>
+    :root {
+      --navy: #1f3554;
+      --cream: #f7f1e5;
+      --paper: #fffaf0;
+      --pink: #d38da0;
+      --line: #d8c8ae;
+      --blue: #dfe9ef;
+      --text: #38465b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--navy);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(247, 241, 229, 0.96);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--navy);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      background: var(--paper);
+    }
+
+    .signin {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--navy);
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    main {
+      width: min(1180px, 92%);
+      margin: 40px auto 70px;
+    }
+
+    .eyebrow-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .passport {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-top: 8px solid var(--navy);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 35px rgba(46, 53, 66, 0.12);
+    }
+
+    .page {
+      padding: 46px 48px;
+      min-height: 610px;
+      position: relative;
+    }
+
+    .page.left {
+      border-right: 2px dashed #ddd1bf;
+    }
+
+    .hello {
+      font-size: 17px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      margin-top: 0;
+      color: var(--navy);
+    }
+
+    h1 {
+      font-size: clamp(52px, 6vw, 80px);
+      line-height: 0.98;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      font-size: 42px;
+      line-height: 1.05;
+    }
+
+    .intro {
+      color: var(--text);
+      font-size: 20px;
+      line-height: 1.55;
+      max-width: 560px;
+    }
+
+    .divider {
+      border-top: 1px dashed var(--line);
+      margin: 34px 0;
+    }
+
+    .progress-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .progress-big {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 34px;
+      font-weight: 700;
+      margin: 14px 0 6px;
+      color: var(--navy);
+    }
+
+    .progress-sub {
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .bar-wrap {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e7ddcf;
+      overflow: hidden;
+      margin-bottom: 26px;
+    }
+
+    .bar {
+      width: 66.666%;
+      height: 100%;
+      background: var(--pink);
+    }
+
+    .primary-btn {
+      display: inline-block;
+      border: none;
+      background: var(--navy);
+      color: white;
+      padding: 15px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 38px;
+    }
+
+    .stamp {
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 2px dashed var(--line);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 14px;
+      background: #fffaf2;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .stamp:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(43, 53, 70, 0.08);
+    }
+
+    .stamp.collected {
+      border-color: var(--navy);
+      box-shadow: inset 0 0 0 5px rgba(31, 53, 84, 0.05);
+    }
+
+    .stamp.pink {
+      border-color: var(--pink);
+    }
+
+    .letters {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .stamp.pink .letters {
+      color: var(--pink);
+    }
+
+    .status {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 8px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .tap-note {
+      text-align: center;
+      margin-top: 34px;
+      color: var(--text);
+    }
+
+    .below {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 28px;
+      margin-top: 34px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 34px;
+      background: var(--paper);
+    }
+
+    .card.blue {
+      background: var(--blue);
+    }
+
+    .card h3 {
+      font-size: 34px;
+      margin-bottom: 18px;
+    }
+
+    .event-date {
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .card p {
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .itinerary {
+      margin-top: 56px;
+    }
+
+    .itinerary h2 {
+      margin-bottom: 34px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 24px;
+      padding: 22px 0;
+      border-top: 1px dashed var(--line);
+    }
+
+    .num {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    .step strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      margin-bottom: 6px;
+      color: var(--navy);
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px 50px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      header {
+        padding: 14px 18px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      main {
+        width: min(94%, 700px);
+        margin-top: 24px;
+      }
+
+      .eyebrow-row {
+        font-size: 11px;
+        gap: 12px;
+      }
+
+      .passport {
+        grid-template-columns: 1fr;
+      }
+
+      .page.left {
+        border-right: none;
+        border-bottom: 2px dashed #ddd1bf;
+      }
+
+      .page {
+        padding: 34px 24px;
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 56px;
+      }
+
+      h2 {
+        font-size: 36px;
+      }
+
+      .stamp-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .below {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 60px 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo">PP</div>
+      <span>Panhellenic Passport</span>
+    </div>
+
+    <button class="signin">Sign in</button>
+  </header>
+
+  <main>
+
+    <div class="eyebrow-row">
+      <span>Your chapter connection journey</span>
+      <span>2026 edition</span>
+    </div>
+
+    <section class="passport">
+
+      <div class="page left">
+        <div class="hello">Hello, Ava</div>
+
+        <h1>Your Passport</h1>
+
+        <p class="intro">
+          Every chapter has a welcome waiting for you. Explore, connect,
+          and collect a little piece of our Panhellenic community.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="progress-label">Passport progress</div>
+
+        <div class="progress-big">
+          4 of 6 stamps collected
+        </div>
+
+        <div class="progress-sub">
+          Two more chapter connections to complete your passport.
+        </div>
+
+        <div class="bar-wrap">
+          <div class="bar"></div>
+        </div>
+
+        <button class="primary-btn">
+          View your next stop →
+        </button>
+      </div>
+
+      <div class="page right">
+        <div class="section-label">Chapter directory</div>
+
+        <h2>Visit & collect</h2>
+
+        <div class="stamp-grid">
+
+          <div class="stamp pink collected">
+            <div>
+              <div class="letters">AOII</div>
+              <div class="status">Collected</div>
+            </div>
+          </div>
+
+          <div class="stamp collected">
+            <div>
+              <div class="letters">ADΠ</div>
+              <div class="status">Collected</div>
+            </div>
+          </div>
+
+          <div class="stamp">
+            <div>
+              <div class="letters">ΧΩ</div>
+              <div class="status">Next</div>
+            </div>
+          </div>
+
+          <div class="stamp collected">
+            <div>
+              <div class="letters">ΑΧΩ</div>
+              <div class="status">Collected</div>
+            </div>
+          </div>
+
+          <div class="stamp">
+            <div>
+              <div class="letters">ΚΔ</div>
+              <div class="status">Next</div>
+            </div>
+          </div>
+
+          <div class="stamp collected">
+            <div>
+              <div class="letters">ΖΤΑ</div>
+              <div class="status">Collected</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tap-note">
+          Tap a stamp to follow your route.
+        </div>
+      </div>
+
+    </section>
+
+    <section class="below">
+
+      <div class="card blue">
+        <div class="section-label">Next stop</div>
+
+        <h3>Tea & Traditions with Alpha Chi Omega</h3>
+
+        <div class="event-date">
+          Thursday, September 10 · 6:30 PM
+        </div>
+
+        <p>
+          Meet members from another chapter, learn something new,
+          and earn your next Panhellenic Passport stamp.
+        </p>
+
+        <button class="primary-btn">
+          RSVP to this stop
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="section-label">The semester finish line</div>
+
+        <h3>More stamps, more connection</h3>
+
+        <p>
+          Visit all six Panhellenic chapters and complete your passport
+          while building new friendships across our community.
+        </p>
+      </div>
+
+    </section>
+
+    <section class="itinerary">
+
+      <div class="section-label">The journey ahead</div>
+
+      <h2>Six chapters. A semester of connections.</h2>
+
+      <div class="step">
+        <div class="num">01</div>
+        <div>
+          <strong>Meet at least one new face</strong>
+          <p>
+            Start with a welcoming chapter activity and let curiosity lead.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">02</div>
+        <div>
+          <strong>Collect your chapter stamps</strong>
+          <p>
+            Each chapter connection earns one unique passport stamp.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">03</div>
+        <div>
+          <strong>Complete your passport</strong>
+          <p>
+            Collect all six chapter stamps and celebrate a semester of Panhellenic connection.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    Panhellenic Passport · 2026
+  </footer>
+
+</body>
+</html>
